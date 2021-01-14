@@ -4,15 +4,18 @@ import axios from 'axios';
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+const cards = document.querySelector('.cards');
 
-
-axios
-  .get('https://api.github.com/users/nwestallen')
+const followersArray = ['nwestallen', 'tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+followersArray.forEach((follower) => 
+  axios
+  .get(`https://api.github.com/users/${follower}`)
   .then((res) => {
-    console.log(makeCard(res.data));
+    cards.appendChild(makeCard(res.data));
     console.log(res.data);
   })
-  .catch((err) => console.log('failure'));
+  // eslint-disable-next-line no-unused-vars
+  .catch((err) => console.log('failure')));
 
 
 /*
@@ -39,7 +42,7 @@ axios
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
