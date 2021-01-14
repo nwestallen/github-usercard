@@ -5,8 +5,15 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
 */
 
-const gitGet = axios.get('https://api.github.com/users/nwestallen')
-console.log(gitGet);
+
+axios
+  .get('https://api.github.com/users/nwestallen')
+  .then((res) => {
+    console.log(makeCard(res.data));
+    console.log(res.data);
+  })
+  .catch((err) => console.log('failure'));
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -54,35 +61,53 @@ const followersArray = [];
     </div>
 */
 
-function makeCard(object) {
+function makeCard({avatar_url, name, login, location, followers, following, bio, html_url}) {
   //create html elements
   let card = document.createElement('div');
   let img = document.createElement('img');
   let cardInfo = document.createElement('div');
-  let name = document.createElement('h3');
+  let nameTag = document.createElement('h3');
   let username = document.createElement('p')
-  let location = document.createElement('p')
+  let locationTag = document.createElement('p')
   let profile = document.createElement('p');
+  let profileText = document.createTextNode('Profile: ');
   let profileLink = document.createElement('a');
-  let followers = document.createElement('p');
-  let following = document.createElement('p');
-  let bio = document.createElement('p');
+  let followersTag = document.createElement('p');
+  let followingTag = document.createElement('p');
+  let bioTag = document.createElement('p');
   //build structure
   card.appendChild(img);
   card.appendChild(cardInfo);
-  cardInfo.appendChild(name);
+  cardInfo.appendChild(nameTag);
   cardInfo.appendChild(username);
-  cardInfo.appendChild(location);
+  cardInfo.appendChild(locationTag);
   cardInfo.appendChild(profile);
-  cardInfo.appendChild(followers);
-  cardInfo.appendChild(following);
-  cardInfo.appendChild(bio);
+  cardInfo.appendChild(followersTag);
+  cardInfo.appendChild(followingTag);
+  cardInfo.appendChild(bioTag);
+  profile.appendChild(profileText);
   profile.appendChild(profileLink);
-  //add text content to tags
-
+  //add classes to tags
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  nameTag.classList.add('name');
+  username.classList.add('username');
+  profileLink.href = html_url;
+  //add content to tags
+  img.src = avatar_url;
+  nameTag.textContent = name;
+  username.textContent = login;
+  //profile.textContent = 'Profile: \n'
+  locationTag.textContent = `Location: ${location}`;
+  followersTag.textContent = `Followers: ${followers}`;
+  followingTag.textContent = `Following: ${following}`;
+  bioTag.textContent = `Bio: ${bio}`;
+  profileLink.textContent = html_url;
   //return card
 return card;
 }
+
+
 
 /*
   List of LS Instructors Github username's:
